@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>MHGW - Loading Screen</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Bahnschrift', 'Segoe UI', 'Helvetica Neue', sans-serif;
+            background: #0b0e0a;
+        }
+
+        .slideshow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0;
+            animation: fadeSoft 24s infinite ease-in-out;
+            will-change: opacity;
+            filter: saturate(0.55) contrast(1.1) brightness(0.7);
+        }
+
+        .slide:nth-child(1)  { animation-delay: 0s;   background-image: url('images/1.jpg');  }
+        .slide:nth-child(2)  { animation-delay: 8s;   background-image: url('images/2.jpg');  }
+        .slide:nth-child(3)  { animation-delay: 16s;  background-image: url('images/3.jpg');  }
+        .slide:nth-child(4)  { animation-delay: 24s;  background-image: url('images/4.jpg');  }
+        .slide:nth-child(5)  { animation-delay: 32s;  background-image: url('images/5.jpg');  }
+        .slide:nth-child(6)  { animation-delay: 40s;  background-image: url('images/6.jpg');  }
+        .slide:nth-child(7)  { animation-delay: 50s;  background-image: url('images/7.jpg');  }
+        .slide:nth-child(8)  { animation-delay: 62s;  background-image: url('images/8.jpg');  }
+        .slide:nth-child(9)  { animation-delay: 70s;  background-image: url('images/9.jpg');  }
+        .slide:nth-child(10) { animation-delay: 82s;  background-image: url('images/10.jpg'); }
+        .slide:nth-child(11) { animation-delay: 90s;  background-image: url('images/11.jpg'); }
+        .slide:nth-child(12) { animation-delay: 104s; background-image: url('images/12.jpg'); }
+        .slide:nth-child(13) { animation-delay: 110s; background-image: url('images/13.jpg'); }
+        .slide:nth-child(14) { animation-delay: 124s; background-image: url('images/14.jpg'); }
+        .slide:nth-child(15) { animation-delay: 130s; background-image: url('images/15.jpg'); }
+        .slide:nth-child(16) { animation-delay: 140s; background-image: url('images/16.jpg'); }
+        .slide:nth-child(17) { animation-delay: 150s; background-image: url('images/17.jpg'); }
+        .slide:nth-child(18) { animation-delay: 160s; background-image: url('images/18.jpg'); }
+        .slide:nth-child(19) { animation-delay: 170s; background-image: url('images/19.jpg'); }
+        .slide:nth-child(20) { animation-delay: 180s; background-image: url('images/20.jpg'); }
+        .slide:nth-child(21) { animation-delay: 190s; background-image: url('images/21.jpg'); }
+        .slide:nth-child(22) { animation-delay: 200s; background-image: url('images/22.jpg'); }
+        .slide:nth-child(23) { animation-delay: 210s; background-image: url('images/23.jpg'); }
+        .slide:nth-child(24) { animation-delay: 220s; background-image: url('images/24.jpg'); }
+        .slide:nth-child(25) { animation-delay: 230s; background-image: url('images/25.jpg'); }
+        .slide:nth-child(26) { animation-delay: 240s; background-image: url('images/26.jpg'); }
+        .slide:nth-child(27) { animation-delay: 250s; background-image: url('images/27.jpg'); }
+        .slide:nth-child(28) { animation-delay: 260s; background-image: url('images/28.jpg'); }
+
+        @keyframes fadeSoft {
+            0%   { opacity: 0; }
+            6%   { opacity: 1; }
+            28%  { opacity: 1; }
+            36%  { opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(15, 20, 12, 0.75) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(8, 12, 6, 0.80) 0%, transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(10, 15, 8, 0.60) 0%, transparent 70%),
+                linear-gradient(145deg, rgba(5, 8, 4, 0.85) 0%, rgba(15, 22, 12, 0.55) 100%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+            text-align: center;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            pointer-events: none;
+        }
+
+        .fade-in-text {
+            font-size: 4.5vw;
+            font-weight: 700;
+            letter-spacing: 8px;
+            animation: appearWorn 3.8s cubic-bezier(0.18, 0.9, 0.35, 1.1) forwards;
+            opacity: 0;
+            color: #b8c2aa;
+            text-shadow: 
+                0 0 8px rgba(60, 80, 50, 0.3),
+                0 0 20px rgba(30, 45, 25, 0.4),
+                0 0 35px rgba(10, 20, 8, 0.6),
+                0 2px 6px rgba(0,0,0,0.9);
+            background: rgba(12, 18, 10, 0.50);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+            padding: 22px 56px;
+            border-radius: 120px;
+            border: 1px solid rgba(80, 100, 70, 0.25);
+            box-shadow: 
+                0 0 40px rgba(0, 0, 0, 0.7),
+                inset 0 0 40px rgba(20, 30, 15, 0.15);
+            display: inline-block;
+            font-family: inherit;
+        }
+
+        @keyframes appearWorn {
+            0%   { opacity: 0; transform: scale(0.75); text-shadow: 0 0 0 transparent; letter-spacing: 18px; }
+            40%  { opacity: 0.9; transform: scale(1.03); text-shadow: 0 0 15px rgba(80, 110, 60, 0.2), 0 0 30px rgba(30, 50, 20, 0.3); letter-spacing: 9px; }
+            100% { opacity: 1; transform: scale(1); text-shadow: 0 0 8px rgba(60, 85, 45, 0.2), 0 0 20px rgba(20, 35, 15, 0.3), 0 2px 8px rgba(0,0,0,0.8); letter-spacing: 8px; }
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 15% 25%, rgba(5, 10, 5, 0.40) 0%, transparent 45%),
+                radial-gradient(circle at 85% 70%, rgba(2, 5, 2, 0.45) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(8, 12, 6, 0.25) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 4;
+        }
+
+        .music-player {
+            position: fixed;
+            top: 28px;
+            left: 28px;
+            z-index: 10;
+            background: rgba(6, 10, 6, 0.80);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 12px 26px;
+            border-radius: 60px;
+            border: 1px solid rgba(70, 90, 60, 0.20);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(10, 18, 8, 0.3);
+            color: #a6b49a;
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 0.6px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            pointer-events: auto;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            font-family: 'Bahnschrift', 'Segoe UI', sans-serif;
+            max-width: 70vw;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .music-player .track-icon {
+            font-size: 1.6rem;
+            line-height: 1;
+            opacity: 0.60;
+            filter: grayscale(0.4) drop-shadow(0 0 4px rgba(0,0,0,0.5));
+        }
+
+        .music-player .track-name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 280px;
+            display: inline-block;
+            background: linear-gradient(135deg, #9aab8a, #c0cdb0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 400;
+            letter-spacing: 0.4px;
+            transition: all 0.25s ease;
+            text-shadow: 0 0 12px rgba(20, 30, 15, 0.3);
+            opacity: 0.85;
+        }
+
+        .music-player .track-name.loading {
+            opacity: 0.35;
+            -webkit-text-fill-color: #6a7a5e;
+            background: none;
+            text-shadow: none;
+        }
+
+        .music-player {
+            animation: fadeSlideDown 0.8s cubic-bezier(0.15, 0.9, 0.25, 1) 1.2s both;
+        }
+
+        @keyframes fadeSlideDown {
+            0%   { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 680px) {
+            .fade-in-text {
+                font-size: 8vw;
+                padding: 14px 30px;
+                letter-spacing: 5px;
+                border-radius: 80px;
+            }
+            .music-player {
+                top: 18px;
+                left: 18px;
+                padding: 10px 18px;
+                font-size: 0.9rem;
+                max-width: 80vw;
+                white-space: nowrap;
+            }
+            .music-player .track-name {
+                max-width: 150px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .slide { animation: none; opacity: 0; }
+            .slide:first-child { opacity: 1; }
+            .fade-in-text { animation: none; opacity: 1; transform: scale(1); }
+            .music-player { animation: none; opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="slideshow">
+        <div class="slide"></div> <div class="slide"></div> <div class="slide"></div> <div class="slide"></div>
+        <div class="slide"></div> <div class="slide"></div> <div class="slide"></div> <div class="slide"></div>
+        <div class="slide"></div> <div class="slide"></div> <div class="slide"></div> <div class="slide"></div>
+        <div class="slide"></div> <div class="slide"></div> <div class="slide"></div> <div class="slide"></div>
+        <div class="slide"></div> <div class="slide"></div> <div class="slide"></div> <div class="slide"></div>
+        <div class="slide"></div> <div class="slide"></div> <div class="slide"></div> <div class="slide"></div>
+        <div class="slide"></div> <div class="slide"></div> <div class="slide"></div> <div class="slide"></div>
+    </div>
+
+    <div class="overlay"></div>
+
+    <div class="content">
+        <div class="fade-in-text">MHGW</div>
+    </div>
+
+    <div class="music-player" id="musicPlayer" role="status" aria-live="polite">
+        <span class="track-icon">🎵</span>
+        <span class="track-name loading" id="trackDisplay">загрузка...</span>
+    </div>
+
+    <script>
+        (function() {
+            "use strict";
+
+            const TRACK_LIST = [
+                { file: 'music/track1.mp3', label: '42Spinna · Edo Hunnidz - VIP QazaQ' },
+                { file: 'music/track2.mp3', label: 'Aki - popipo00' },
+                { file: 'music/track3.mp3', label: 'EDARUMA - Recent Past' },
+                { file: 'music/track4.mp3', label: 'Aphex Twin - Xtal' },
+                { file: 'music/track5.mp3', label: 'Aphex Twin - Pulsewidth' },
+                { file: 'music/track6.mp3', label: 'laydownrot - perfect face' },
+                { file: 'music/track7.mp3', label: 'Сектор Газа - Колхозный панк' },
+                { file: 'music/track8.mp3', label: 'Сектор Газа - Патриот' },
+                { file: 'music/track9.mp3', label: 'Сектор Газа - Песенка' },
+                { file: 'music/track10.mp3', label: 'Витосик - Капай' },
+                { file: 'music/track11.mp3', label: 'Наутилус Помпилус - Зверь' },
+                { file: 'music/track12.mp3', label: 'Сектор Газа - Твой звонок' },
+                { file: 'music/track13.mp3', label: 'Наутилус Помпилус - Негодяй и ангел' },
+                { file: 'music/track14.mp3', label: 'Tame Impala - Borderline' },
+                { file: 'music/track15.mp3', label: 'Inner Wave - Take 3' },
+                { file: 'music/track16.mp3', label: 'HONE - Resonance' },
+                { file: 'music/track17.mp3', label: 'Смысловые Галлюцинации - Вечно молодой' },
+                { file: 'music/track18.mp3', label: 'Song of saya - Sabbath' },
+                { file: 'music/track19.mp3', label: 'Aki - カガミ' },
+                { file: 'music/track20.mp3', label: 'Aki - MOOGCiTY' },
+            ];
+
+            if (TRACK_LIST.length === 0) {
+                TRACK_LIST.push({ file: '', label: 'нет треков' });
+            }
+
+            let currentTrackIndex = 0;
+            const audio = new Audio();
+            const trackDisplay = document.getElementById('trackDisplay');
+
+            audio.volume = 0.05;
+
+            function updateTrackLabel(label, isLoading) {
+                if (isLoading) {
+                    trackDisplay.textContent = 'загрузка...';
+                    trackDisplay.className = 'track-name loading';
+                } else {
+                    trackDisplay.textContent = label;
+                    trackDisplay.className = 'track-name';
+                }
+            }
+
+            function playTrack(index) {
+                const track = TRACK_LIST[index];
+                if (!track) return;
+
+                if (!track.file) {
+                    updateTrackLabel('⏸ нет трека', false);
+                    return;
+                }
+
+                updateTrackLabel('', true);
+
+                audio.pause();
+                audio.src = track.file;
+                audio.load();
+
+                const playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(err => {
+                        console.warn('Autoplay blocked:', err);
+                        updateTrackLabel(track.label + ' (нажми для воспр.)', false);
+                    });
+                }
+
+                audio.oncanplaythrough = function() {
+                    updateTrackLabel(track.label, false);
+                };
+
+                audio.onerror = function() {
+                    updateTrackLabel('⚠ ' + track.label + ' (ошибка)', false);
+                    setTimeout(() => {
+                        if (audio.paused || audio.ended) {
+                            nextTrack();
+                        }
+                    }, 3000);
+                };
+
+                audio.onended = function() {
+                    nextTrack();
+                };
+
+                audio.onstalled = function() {
+                    setTimeout(() => {
+                        if (audio.paused && !audio.ended) {
+                            nextTrack();
+                        }
+                    }, 4000);
+                };
+            }
+
+            function nextTrack() {
+                currentTrackIndex = (currentTrackIndex + 1) % TRACK_LIST.length;
+                playTrack(currentTrackIndex);
+            }
+
+            function playRandomTrack() {
+                const randomIndex = Math.floor(Math.random() * TRACK_LIST.length);
+                currentTrackIndex = randomIndex;
+                playTrack(randomIndex);
+            }
+
+            document.getElementById('musicPlayer').addEventListener('click', function(e) {
+                if (audio.paused) {
+                    audio.play().catch(() => {
+                        nextTrack();
+                    });
+                } else {
+                    nextTrack();
+                }
+            });
+
+            if (TRACK_LIST.length > 0 && TRACK_LIST[0].file) {
+                setTimeout(() => {
+                    playRandomTrack();
+                }, 400);
+            } else {
+                updateTrackLabel('нет треков', false);
+            }
+
+            const playerEl = document.getElementById('musicPlayer');
+            playerEl.title = 'BTW :P';
+
+            document.addEventListener('click', function resumeOnInteraction() {
+                if (audio.paused && audio.src) {
+                    audio.play().catch(() => {});
+                }
+                document.removeEventListener('click', resumeOnInteraction);
+            }, { once: true });
+
+            setInterval(() => {
+                if (audio.ended && audio.src) {
+                    nextTrack();
+                }
+            }, 2000);
+
+        })();
+    </script>
+
+</body>
+</html>
