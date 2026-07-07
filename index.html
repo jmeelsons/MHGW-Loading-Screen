@@ -3,81 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>MHGW — Loading Screen</title>
+    <title>MHGW - Loading Screen</title>
     <style>
-        @font-face {
-            font-family: 'ArmyStencil';
-            src: local('Arial Narrow'), local('Impact'),
-                 local('Helvetica Neue'), local('Segoe UI'),
-                 local('Trebuchet MS');
-            font-weight: 700;
-            font-style: normal;
-            font-display: swap;
-            unicode-range: U+0400-045F, U+0490-0491, U+04A0-04FF, U+0500-052F, U+00C0-00FF, U+0100-017F, U+0180-024F;
-        }
-
-        .army-font {
-            font-family: 'ArmyStencil', 'Impact', 'Arial Black', 'Helvetica Neue', sans-serif;
-            font-weight: 700;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            font-size: clamp(2.8rem, 12vw, 7rem);
-            color: #d4dcc4;
-            background: linear-gradient(145deg, #e8f0da, #b8c8a8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 
-                0 0 20px rgba(180, 200, 150, 0.25),
-                0 0 40px rgba(120, 160, 80, 0.15),
-                0 2px 0 #3a4a2a,
-                0 4px 0 #1f2a1a,
-                0 6px 12px rgba(0,0,0,0.9);
-            transform: skewX(-2deg) scaleY(1.02);
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.8));
-            padding: 0.15em 0.6em;
-            border-radius: 0;
-            display: inline-block;
-            border-left: 4px solid rgba(140, 180, 110, 0.3);
-            border-right: 4px solid rgba(140, 180, 110, 0.3);
-            background-color: transparent;
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
-            box-shadow: none;
-            background: none;
-            line-height: 1.2;
-        }
-
-        .army-font::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(45deg, rgba(0,0,0,0.03) 0px, rgba(0,0,0,0.03) 4px, transparent 4px, transparent 10px);
-            pointer-events: none;
-            z-index: 5;
-            mix-blend-mode: overlay;
-        }
-
-        .army-font-wrapper {
-            position: relative;
-            display: inline-block;
-            padding: 0.2em 0.8em 0.4em;
-            background: rgba(8, 12, 6, 0.55);
-            backdrop-filter: blur(2px) contrast(1.2);
-            -webkit-backdrop-filter: blur(2px) contrast(1.2);
-            border: 2px solid rgba(70, 100, 55, 0.25);
-            box-shadow: 
-                0 0 30px rgba(0,0,0,0.8),
-                inset 0 0 40px rgba(0,0,0,0.6),
-                0 0 0 1px rgba(50, 70, 40, 0.2) inset;
-            border-radius: 0;
-            transform: rotate(-0.5deg) scale(0.98);
-            transition: all 0.2s ease;
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -89,7 +16,7 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            font-family: 'ArmyStencil', 'Impact', 'Arial Black', 'Helvetica Neue', sans-serif;
+            font-family: 'Bernhard SHA Rough', 'Segoe UI', 'Helvetica Neue', sans-serif;
             background: #0b0e0a;
         }
 
@@ -117,18 +44,18 @@
             filter: saturate(0.55) contrast(1.1) brightness(0.7);
         }
 
-        .slide:nth-child(1)  { animation-delay: 0s;   background-image: url('images/1.png');  }
+        .slide:nth-child(1)  { animation-delay: 0s;   background-image: url('images/1.jpg');  }
         .slide:nth-child(2)  { animation-delay: 8s;   background-image: url('images/2.jpg');  }
         .slide:nth-child(3)  { animation-delay: 16s;  background-image: url('images/3.jpg');  }
-        .slide:nth-child(4)  { animation-delay: 24s;  background-image: url('images/4.png');  }
-        .slide:nth-child(5)  { animation-delay: 32s;  background-image: url('images/5.png');  }
-        .slide:nth-child(6)  { animation-delay: 40s;  background-image: url('images/6.png');  }
-        .slide:nth-child(7)  { animation-delay: 50s;  background-image: url('images/7.png');  }
-        .slide:nth-child(8)  { animation-delay: 62s;  background-image: url('images/8.png');  }
-        .slide:nth-child(9)  { animation-delay: 70s;  background-image: url('images/9.png');  }
-        .slide:nth-child(10) { animation-delay: 82s;  background-image: url('images/10.png'); }
-        .slide:nth-child(11) { animation-delay: 90s;  background-image: url('images/11.png'); }
-        .slide:nth-child(12) { animation-delay: 104s; background-image: url('images/12.png'); }
+        .slide:nth-child(4)  { animation-delay: 24s;  background-image: url('images/4.jpg');  }
+        .slide:nth-child(5)  { animation-delay: 32s;  background-image: url('images/5.jpg');  }
+        .slide:nth-child(6)  { animation-delay: 40s;  background-image: url('images/6.jpg');  }
+        .slide:nth-child(7)  { animation-delay: 50s;  background-image: url('images/7.jpg');  }
+        .slide:nth-child(8)  { animation-delay: 62s;  background-image: url('images/8.jpg');  }
+        .slide:nth-child(9)  { animation-delay: 70s;  background-image: url('images/9.jpg');  }
+        .slide:nth-child(10) { animation-delay: 82s;  background-image: url('images/10.jpg'); }
+        .slide:nth-child(11) { animation-delay: 90s;  background-image: url('images/11.jpg'); }
+        .slide:nth-child(12) { animation-delay: 104s; background-image: url('images/12.jpg'); }
         .slide:nth-child(13) { animation-delay: 110s; background-image: url('images/13.jpg'); }
         .slide:nth-child(14) { animation-delay: 124s; background-image: url('images/14.jpg'); }
         .slide:nth-child(15) { animation-delay: 130s; background-image: url('images/15.jpg'); }
@@ -204,20 +131,7 @@
                 0 0 40px rgba(0, 0, 0, 0.7),
                 inset 0 0 40px rgba(20, 30, 15, 0.15);
             display: inline-block;
-            font-family: 'ArmyStencil', 'Impact', 'Arial Black', 'Helvetica Neue', sans-serif;
-            text-transform: uppercase;
-            background: none;
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
-            border: none;
-            box-shadow: none;
-            padding: 0;
-            border-radius: 0;
-            background: transparent;
-        }
-
-        .fade-in-text .army-font-wrapper {
-            font-size: clamp(3rem, 14vw, 9rem);
+            font-family: inherit;
         }
 
         @keyframes appearWorn {
@@ -255,14 +169,14 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(10, 18, 8, 0.3);
             color: #a6b49a;
             font-size: 1.1rem;
-            font-weight: 400;
-            letter-spacing: 0.4px;
+            font-weight: 300;
+            letter-spacing: 0.6px;
             display: flex;
             align-items: center;
             gap: 12px;
             pointer-events: auto;
             transition: opacity 0.3s ease, transform 0.3s ease;
-            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Bernhard SHA Rough', 'Segoe UI', sans-serif;
             max-width: 70vw;
             white-space: nowrap;
             cursor: pointer;
@@ -273,7 +187,6 @@
             line-height: 1;
             opacity: 0.60;
             filter: grayscale(0.4) drop-shadow(0 0 4px rgba(0,0,0,0.5));
-            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
         }
 
         .music-player .track-name {
@@ -281,22 +194,22 @@
             text-overflow: ellipsis;
             max-width: 280px;
             display: inline-block;
-            color: #d4dec8;
+            background: linear-gradient(135deg, #9aab8a, #c0cdb0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             font-weight: 400;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.4px;
             transition: all 0.25s ease;
             text-shadow: 0 0 12px rgba(20, 30, 15, 0.3);
-            opacity: 0.9;
-            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-            text-transform: none;
-            background: none;
-            -webkit-text-fill-color: #d4dec8;
+            opacity: 0.85;
         }
 
         .music-player .track-name.loading {
-            opacity: 0.5;
-            color: #8a9a7e;
-            -webkit-text-fill-color: #8a9a7e;
+            opacity: 0.35;
+            -webkit-text-fill-color: #6a7a5e;
+            background: none;
+            text-shadow: none;
         }
 
         .music-player {
@@ -309,8 +222,11 @@
         }
 
         @media (max-width: 680px) {
-            .fade-in-text .army-font-wrapper {
-                font-size: clamp(2.2rem, 12vw, 4.5rem);
+            .fade-in-text {
+                font-size: 8vw;
+                padding: 14px 30px;
+                letter-spacing: 5px;
+                border-radius: 80px;
             }
             .music-player {
                 top: 18px;
@@ -348,11 +264,7 @@
     <div class="overlay"></div>
 
     <div class="content">
-        <div class="fade-in-text">
-            <span class="army-font-wrapper">
-                <span class="army-font">MHGW</span>
-            </span>
-        </div>
+        <div class="fade-in-text">MHGW</div>
     </div>
 
     <div class="music-player" id="musicPlayer" role="status" aria-live="polite">
@@ -508,5 +420,6 @@
 
         })();
     </script>
+
 </body>
 </html>
