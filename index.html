@@ -123,6 +123,11 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 20px;
+            gap: 25px;
+        }
+
+        .server-info {
+            flex: 1;
         }
 
         .server-info h2 {
@@ -148,65 +153,173 @@
         }
 
         .music-block {
-            text-align: right;
-            font-size: 12px;
-            color: #6a7a4a;
-            border-left: 1px dashed #3a4a2a;
-            padding-left: 20px;
+            background: rgba(15, 20, 12, 0.7);
+            border: 1px solid #3a4a2a;
+            padding: 12px;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
+            gap: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
-            min-width: 180px;
+            min-width: 280px;
+            max-width: 300px;
+            align-items: center;
         }
 
         .music-block:hover {
-            border-left-color: #ff8c42;
-            text-shadow: 0 0 8px rgba(255, 140, 66, 0.3);
+            border-color: #ff8c42;
+            box-shadow: 0 0 15px rgba(255, 140, 66, 0.2);
         }
 
-        .music-block .radio-label {
+        .album-cover {
+            width: 55px;
+            height: 55px;
+            flex-shrink: 0;
+            background: #151f10;
+            border: 1px solid #4a5a2a;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .album-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.3s ease;
+        }
+
+        .album-cover .cover-fallback {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: #ff8c42;
+            text-shadow: 0 0 10px rgba(255, 140, 66, 0.5);
+            z-index: 1;
+        }
+
+        .album-cover .equalizer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 2px;
+            padding: 0 6px 6px 6px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 2;
+        }
+
+        .music-block.playing .equalizer {
+            opacity: 1;
+        }
+
+        .eq-bar {
+            width: 3px;
+            background: #ff8c42;
+            border-radius: 1px;
+            animation: equalizer 0.8s ease-in-out infinite;
+        }
+
+        .eq-bar:nth-child(1) { height: 10px; animation-delay: 0s; }
+        .eq-bar:nth-child(2) { height: 18px; animation-delay: 0.1s; }
+        .eq-bar:nth-child(3) { height: 7px; animation-delay: 0.2s; }
+        .eq-bar:nth-child(4) { height: 22px; animation-delay: 0.3s; }
+        .eq-bar:nth-child(5) { height: 14px; animation-delay: 0.4s; }
+        .eq-bar:nth-child(6) { height: 9px; animation-delay: 0.5s; }
+        .eq-bar:nth-child(7) { height: 16px; animation-delay: 0.6s; }
+        .eq-bar:nth-child(8) { height: 12px; animation-delay: 0.7s; }
+
+        @keyframes equalizer {
+            0%, 100% { transform: scaleY(0.4); }
+            50% { transform: scaleY(1); }
+        }
+
+        .track-info {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .track-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .track-label {
+            font-size: 9px;
             color: #6a7a4a;
-            font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 4px;
         }
 
-        .music-block .radio-station {
-            color: #c8d4a0;
-            font-size: 15px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            margin-bottom: 6px;
-        }
-
-        .music-block .track-now {
+        .track-time {
+            font-size: 11px;
             color: #ff8c42;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+
+        .track-name-full {
+            color: #c8d4a0;
             font-size: 13px;
-            text-shadow: 0 0 8px rgba(255, 140, 66, 0.5);
-            font-style: italic;
+            font-weight: bold;
             letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-            max-width: 200px;
+            line-height: 1.3;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
             overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            transition: all 0.3s ease;
         }
 
-        .music-block .track-now.loading {
-            opacity: 0.5;
+        .track-name-full.loading {
+            opacity: 0.4;
             color: #6a7a4a;
-            text-shadow: none;
         }
 
-        .music-block .track-hint {
+        .track-name-full.playing {
+            color: #ff8c42;
+            text-shadow: 0 0 10px rgba(255, 140, 66, 0.4);
+        }
+
+        /* Прогресс трека */
+        .track-progress-mini {
+            width: 100%;
+            height: 3px;
+            background: #151f10;
+            border-radius: 1px;
+            overflow: hidden;
+        }
+
+        .track-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #ff8c42;
+            box-shadow: 0 0 6px rgba(255, 140, 66, 0.6);
+            transition: width 0.1s linear;
+        }
+
+        .track-hint {
             color: #4a5a2a;
-            font-size: 9px;
-            margin-top: 4px;
+            font-size: 8px;
             letter-spacing: 1px;
             opacity: 0.7;
+            text-align: right;
         }
 
         .operation-info {
@@ -378,15 +491,6 @@
         .operation-name.changing {
             animation: glitchText 0.3s ease-in-out;
         }
-
-        @keyframes trackGlow {
-            0%, 100% { text-shadow: 0 0 8px rgba(255, 140, 66, 0.5); }
-            50% { text-shadow: 0 0 15px rgba(255, 140, 66, 0.8), 0 0 25px rgba(255, 140, 66, 0.4); }
-        }
-
-        .music-block .track-now.playing {
-            animation: trackGlow 2s ease-in-out infinite;
-        }
     </style>
 </head>
 <body>
@@ -424,11 +528,33 @@
                     <p>Приятных лагов и зависаний!</p>
                 </div>
             </div>
+
             <div class="music-block" id="musicBlock" title="Нажми для смены трека">
-                <span class="radio-label">MEDIA-PLAYER</span>
-                <span class="radio-station">Вперед и с песнью!</span>
-                <span class="track-now loading" id="trackDisplay">ЗАГРУЗКА...</span>
-                <span class="track-hint">[ SKIP ]</span>
+                <div class="album-cover">
+                    <img id="coverImage" src="" alt="Обложка" style="display: none;" onerror="this.style.display='none'; document.getElementById('coverFallback').style.display='flex';">
+                    //<div class="cover-fallback" id="coverFallback" style="display: flex;">🎵</div>
+                    <div class="equalizer" id="equalizer">
+                        <div class="eq-bar"></div>
+                        <div class="eq-bar"></div>
+                        <div class="eq-bar"></div>
+                        <div class="eq-bar"></div>
+                        <div class="eq-bar"></div>
+                        <div class="eq-bar"></div>
+                        <div class="eq-bar"></div>
+                        <div class="eq-bar"></div>
+                    </div>
+                </div>
+                <div class="track-info">
+                    <div class="track-header">
+                        <span class="track-label">MEDIA-PLAYER</span>
+                        <span class="track-time" id="trackTime">00:00</span>
+                    </div>
+                    <span class="track-name-full loading" id="trackDisplay">ЗАГРУЗКА...</span>
+                    <div class="track-progress-mini">
+                        <div class="track-progress-fill" id="trackProgress"></div>
+                    </div>
+                    <span class="track-hint">[ SKIP ]</span>
+                </div>
             </div>
         </div>
 
@@ -557,75 +683,345 @@
         }
 
         const TRACK_LIST = [
-                { file: 'music/track1.mp3', label: 'Леонид Фёдоров - Зимы не будет' },
-                { file: 'music/track2.mp3', label: 'Ты только маме что я в Чечне не говори' },
-                { file: 'music/track3.mp3', label: 'Агата Кристи - Ни там ни тут' },
-                { file: 'music/track4.mp3', label: 'Леонид Фёдоров - Весна' },
-                { file: 'music/track5.mp3', label: 'А. Розенбаум - Караван' },
-                { file: 'music/track6.mp3', label: 'Бумер - Ангел' },
-                { file: 'music/track7.mp3', label: 'АукцЫон - Жидоголонога' },
-                { file: 'music/track8.mp3', label: 'Валерий Петряев - Афган' },
-                { file: 'music/track9.mp3', label: 'Високосный Год - Тихий огонёк' },
-                { file: 'music/track10.mp3', label: 'Владимир Высоцкий - Письмо перед боем' },
-                { file: 'music/track11.mp3', label: 'АукцЫон - Голова-нога' },
-                { file: 'music/track12.mp3', label: 'КИНО - Группа крови' },
-                { file: 'music/track13.mp3', label: 'ЛЮБЭ - Давай за...' },
-                { file: 'music/track14.mp3', label: 'Гражданская Оборона - Далеко бежит дорога' },
-                { file: 'music/track15.mp3', label: 'КИНО - Закрой за мной дверь, я ухожу' },
-                { file: 'music/track16.mp3', label: 'Здравствуй мама...' },
-                { file: 'music/track17.mp3', label: 'Карабах - Армейская' },
-                { file: 'music/track18.mp3', label: 'Ноггано - Армия' },
-                { file: 'music/track19.mp3', label: 'Валерий Петряев - Прощайте мужики' },
-                { file: 'music/track20.mp3', label: '5NIZZA - Я Солдат' },
-                { file: 'music/track21.mp3', label: 'ЛЮБЭ - Солдат' },
-                { file: 'music/track22.mp3', label: 'КИНО - Стук' },
-                { file: 'music/track23.mp3', label: 'Марк Бернес - Тёмная Ночь' },
-                { file: 'music/track24.mp3', label: 'Ногу свело! - Хару мамбуру' },
-                { file: 'music/track25.mp3', label: 'Андрей Губин - Мальчик-бродяга' },
-                { file: 'music/track26.mp3', label: 'Смысловые Галлюцинации - Вечно молодой' },
-                { file: 'music/track27.mp3', label: 'Сектор Газа - Дембельнуться' },
-                { file: 'music/track28.mp3', label: 'Целуйте бабы рельсы, я еду домой' },
-                { file: 'music/track29.mp3', label: 'Тимур Муцураев - Милые Зелёные Глаза' },
-                { file: 'music/track30.mp3', label: 'СПЛИН - Линия жизни' },
-                { file: 'music/track31.mp3', label: 'ГСН - Я Российский Спецназ' },
-                { file: 'music/track32.mp3', label: 'Джамлай - Назма' },
-                { file: 'music/track33.mp3', label: 'ЛЮБЭ - Конь' },
-                { file: 'music/track34.mp3', label: 'Наутилус Помпилус - Крылья' },
-                { file: 'music/track35.mp3', label: 'ЛЮБЭ - Ты неси меня река...' },
-                { file: 'music/track36.mp3', label: 'Наутилус Помпилус - Зверь' },
-                { file: 'music/track37.mp3', label: 'Агата Кристи - Никогда' },
-                { file: 'music/track38.mp3', label: 'Наутилус Помпилус - Одинокая птица' },
-                { file: 'music/track39.mp3', label: 'Наутилус Помпилус - Последнее письмо' },
-                { file: 'music/track40.mp3', label: 'Тимур Муцураев -  Если Духом Ты Слаб' },
-                { file: 'music/track41.mp3', label: 'Валерий Петряев - Трассера' },
-                { file: 'music/track42.mp3', label: 'Наутилус Помпилус - Черные птицы' },
-                { file: 'music/track43.mp3', label: 'Дембельская' },
-                { file: 'music/track44.mp3', label: 'ЛЮБЭ - Комбат' },
-                { file: 'music/track45.mp3', label: 'Леонид Фёдоров - Душа' },
-                { file: 'music/track46.mp3', label: 'Леонид Фёдоров - Тетрадь' },
-                { file: 'music/track47.mp3', label: 'КИНО - Пачка сигарет' },
-                { file: 'music/track48.mp3', label: 'Наутилус Помпилус - Скованные одной цепью' },
-                { file: 'music/track49.mp3', label: 'Наутилус Помпилус - Матерь богов' },
-                { file: 'music/track50.mp3', label: 'АРИЭЛЬ - В краю магнолий' },
-                { file: 'music/track51.mp3', label: 'АукцЫон - Дорога' },
-                { file: 'music/track52.mp3', label: 'БИ-2 - Феллини' },
-                { file: 'music/track53.mp3', label: 'КИНО - Спокойная ночь' },
-                { file: 'music/track54.mp3', label: 'СПЛИН - Sos!' },
+            { 
+                file: 'music/track1.mp3', 
+                label: 'Леонид Фёдоров - Зимы не будет',
+                cover: 'https://avatars.yandex.net/get-music-content/16508792/cfa26df8.a.1151832-3/m1000x1000'
+            },
+            { 
+                file: 'music/track2.mp3', 
+                label: 'Ты только маме что я в Чечне не говори',
+                cover: 'https://img.icons8.com/m_sharp/1200/help.jpg'
+            },
+            { 
+                file: 'music/track3.mp3', 
+                label: 'Агата Кристи - Ни там ни тут',
+                cover: 'https://img.mvideo.ru/Pdb/40057895b.jpg'
+            },
+            { 
+                file: 'music/track4.mp3', 
+                label: 'Леонид Фёдоров - Весна',
+                cover: 'https://avatars.yandex.net/get-music-content/16508792/cfa26df8.a.1151832-3/m1000x1000'
+            },
+            { 
+                file: 'music/track5.mp3', 
+                label: 'А. Розенбаум - Караван',
+                cover: 'https://img.icons8.com/m_sharp/1200/help.jpg'
+            },
+            { 
+                file: 'music/track6.mp3', 
+                label: 'Бумер - Ангел',
+                cover: 'https://cdn-image.zvuk.com/pic?hash=b9fa90fe-6f11-4e97-ae4a-5e99ca4e6ab2&id=10779437&size=large&type=release'
+            },
+            { 
+                file: 'music/track7.mp3', 
+                label: 'АукцЫон - Жидоголонога',
+                cover: 'https://cdn-image.zvuk.com/pic?hash=a1d7f22f-d974-46a0-9a1b-2509f58fcdb9&id=2269703&size=large&type=release'
+            },
+            { 
+                file: 'music/track8.mp3', 
+                label: 'Валерий Петряев - Афган',
+                cover: 'https://avatars.yandex.net/get-music-content/15682289/14dcead0.a.13905594-2/m1000x1000'
+            },
+            { 
+                file: 'music/track9.mp3', 
+                label: 'Високосный Год - Тихий огонёк',
+                cover: 'https://avatars.mds.yandex.net/i?id=4d2fe514399d0f701dbe5fac53f9f47ea725216d-9234158-images-thumbs&n=13'
+            },
+            { 
+                file: 'music/track10.mp3', 
+                label: 'Владимир Высоцкий - Письмо перед боем',
+                cover: 'https://avatars.yandex.net/get-music-content/12554677/b433fd8e.p.118708/m1000x1000'
+            },
+            { 
+                file: 'music/track11.mp3', 
+                label: 'АукцЫон - Голова-нога',
+                cover: 'https://cdn-image.zvuk.com/pic?hash=a1d7f22f-d974-46a0-9a1b-2509f58fcdb9&id=2269703&size=large&type=release'
+            },
+            { 
+                file: 'music/track12.mp3', 
+                label: 'КИНО - Группа крови',
+                cover: 'https://avatars.yandex.net/get-music-content/95061/4f3808a0.a.5307396-3/m1000x1000'
+            },
+            { 
+                file: 'music/track13.mp3', 
+                label: 'ЛЮБЭ - Давай за...',
+                cover: 'https://images.genius.com/f6551c191f22723cd8cb3ced55b39311.1000x1000x1.png'
+            },
+            { 
+                file: 'music/track14.mp3', 
+                label: 'Гражданская Оборона - Далеко бежит дорога',
+                cover: 'https://vinyl-is.ru/upload/iblock/d40/d40b7c8d57b568d1d45870201ecbcdef.jpg'
+            },
+            { 
+                file: 'music/track15.mp3', 
+                label: 'КИНО - Закрой за мной дверь, я ухожу',
+                cover: 'https://avatars.yandex.net/get-music-content/95061/4f3808a0.a.5307396-3/m1000x1000'
+            },
+            { 
+                file: 'music/track16.mp3', 
+                label: 'Здравствуй мама...',
+                cover: 'https://img.icons8.com/m_sharp/1200/help.jpg'
+            },
+            { 
+                file: 'music/track17.mp3', 
+                label: 'Карабах - Армейская',
+                cover: 'https://img.icons8.com/m_sharp/1200/help.jpg'
+            },
+            { 
+                file: 'music/track18.mp3', 
+                label: 'Ноггано - Армия',
+                cover: 'https://avatars.mds.yandex.net/i?id=6d184aab2d0ad09d0a74b0c20c5550f2_l-5342042-images-thumbs&n=13'
+            },
+            { 
+                file: 'music/track19.mp3', 
+                label: 'Валерий Петряев - Прощайте мужики',
+                cover: 'https://avatars.yandex.net/get-music-content/15682289/14dcead0.a.13905594-2/m1000x1000'
+            },
+            { 
+                file: 'music/track20.mp3', 
+                label: '5NIZZA - Я Солдат',
+                cover: 'https://cdn-image.zvuk.com/pic?hash=50037e46-23a9-4ae7-9470-fd91e5d5d78b&id=40751639&size=large&type=release'
+            },
+            { 
+                file: 'music/track21.mp3', 
+                label: 'ЛЮБЭ - Солдат',
+                cover: 'https://images.genius.com/f6551c191f22723cd8cb3ced55b39311.1000x1000x1.png'
+            },
+            { 
+                file: 'music/track22.mp3', 
+                label: 'КИНО - Стук',
+                cover: 'https://avatars.yandex.net/get-music-content/95061/4f3808a0.a.5307396-3/m1000x1000'
+            },
+            { 
+                file: 'music/track23.mp3', 
+                label: 'Марк Бернес - Тёмная Ночь',
+                cover: 'https://seance.ru/wp-content/uploads/2019/10/bernes-11.jpg'
+            },
+            { 
+                file: 'music/track24.mp3', 
+                label: 'Ногу свело! - Хару мамбуру',
+                cover: 'https://images.genius.com/75806a9e0a670cd1b75ccb045c4efec3.640x640x1.jpg'
+            },
+            { 
+                file: 'music/track25.mp3', 
+                label: 'Андрей Губин - Мальчик-бродяга',
+                cover: 'https://images.thevoicemag.ru/upload/img_cache/928/928e4be2a87c2460a9b52c29312e812e_ce_1480x987x336x105_cropped_650x650.webp'
+            },
+            { 
+                file: 'music/track26.mp3', 
+                label: 'Смысловые Галлюцинации - Вечно молодой',
+                cover: 'https://avatars.yandex.net/get-music-content/42108/76f81053.a.3356224-1/m1000x1000'
+            },
+            { 
+                file: 'music/track27.mp3', 
+                label: 'Сектор Газа - Дембельнуться',
+                cover: 'https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/cd/c7/15/cdc715c2-c464-9a08-4f46-14d8593d2f23/825646504077.jpg/1200x1200bf-60.jpg'
+            },
+            { 
+                file: 'music/track28.mp3', 
+                label: 'Целуйте бабы рельсы, я еду домой',
+                cover: 'https://img.icons8.com/m_sharp/1200/help.jpg'
+            },
+            { 
+                file: 'music/track29.mp3', 
+                label: 'Тимур Муцураев - Милые Зелёные Глаза',
+                cover: 'https://avatars.mds.yandex.net/i?id=328190f13272d19b3431738e1aac4dcd_l-12640484-images-thumbs&n=13'
+            },
+            { 
+                file: 'music/track30.mp3', 
+                label: 'СПЛИН - Линия жизни',
+                cover: 'https://avatars.yandex.net/get-music-content/114728/ce29e78f.a.4181557-1/m1000x1000'
+            },
+            { 
+                file: 'music/track31.mp3', 
+                label: 'ГСН - Я Российский Спецназ',
+                cover: 'https://img.icons8.com/m_sharp/1200/help.jpg'
+            },
+            { 
+                file: 'music/track32.mp3', 
+                label: 'Джамлай - Назма',
+                cover: 'https://img.icons8.com/m_sharp/1200/help.jpg'
+            },
+            { 
+                file: 'music/track33.mp3', 
+                label: 'ЛЮБЭ - Конь',
+                cover: 'https://images.genius.com/f6551c191f22723cd8cb3ced55b39311.1000x1000x1.png'
+            },
+            { 
+                file: 'music/track34.mp3', 
+                label: 'Наутилус Помпилус - Крылья',
+                cover: 'https://cdn-image.zvuk.com/pic?hash=31235327-9fb5-4c39-bab0-81a0bf7daa7c&id=3702762&size=large&type=release'
+            },
+            { 
+                file: 'music/track35.mp3', 
+                label: 'ЛЮБЭ - Ты неси меня река...',
+                cover: 'https://images.genius.com/f6551c191f22723cd8cb3ced55b39311.1000x1000x1.png'
+            },
+            { 
+                file: 'music/track36.mp3', 
+                label: 'Наутилус Помпилус - Зверь',
+                cover: 'https://cdn-image.zvuk.com/pic?hash=31235327-9fb5-4c39-bab0-81a0bf7daa7c&id=3702762&size=large&type=release'
+            },
+            { 
+                file: 'music/track37.mp3', 
+                label: 'Агата Кристи - Никогда',
+                cover: 'https://img.mvideo.ru/Pdb/40057895b.jpg'
+            },
+            { 
+                file: 'music/track38.mp3', 
+                label: 'Наутилус Помпилус - Одинокая птица',
+                cover: 'https://cdn-image.zvuk.com/pic?hash=31235327-9fb5-4c39-bab0-81a0bf7daa7c&id=3702762&size=large&type=release'
+            },
+            { 
+                file: 'music/track39.mp3', 
+                label: 'Наутилус Помпилус - Последнее письмо',
+                cover: 'https://cdn-image.zvuk.com/pic?hash=31235327-9fb5-4c39-bab0-81a0bf7daa7c&id=3702762&size=large&type=release'
+            },
+            { 
+                file: 'music/track40.mp3', 
+                label: 'Тимур Муцураев - Если Духом Ты Слаб',
+                cover: 'https://avatars.mds.yandex.net/i?id=328190f13272d19b3431738e1aac4dcd_l-12640484-images-thumbs&n=13'
+            },
+            { 
+                file: 'music/track41.mp3', 
+                label: 'Валерий Петряев - Трассера',
+                cover: 'https://avatars.yandex.net/get-music-content/15682289/14dcead0.a.13905594-2/m1000x1000'
+            },
+            { 
+                file: 'music/track42.mp3', 
+                label: 'Наутилус Помпилус - Черные птицы',
+                cover: 'https://cdn-image.zvuk.com/pic?hash=31235327-9fb5-4c39-bab0-81a0bf7daa7c&id=3702762&size=large&type=release'
+            },
+            { 
+                file: 'music/track43.mp3', 
+                label: 'Дембельская',
+                cover: 'https://img.icons8.com/m_sharp/1200/help.jpg'
+            },
+            { 
+                file: 'music/track44.mp3', 
+                label: 'ЛЮБЭ - Комбат',
+                cover: 'https://images.genius.com/f6551c191f22723cd8cb3ced55b39311.1000x1000x1.png'
+            },
+            { 
+                file: 'music/track45.mp3', 
+                label: 'Леонид Фёдоров - Душа',
+                cover: 'https://avatars.yandex.net/get-music-content/16508792/cfa26df8.a.1151832-3/m1000x1000'
+            },
+            { 
+                file: 'music/track46.mp3', 
+                label: 'Леонид Фёдоров - Тетрадь',
+                cover: 'https://avatars.yandex.net/get-music-content/16508792/cfa26df8.a.1151832-3/m1000x1000'
+            },
+            { 
+                file: 'music/track47.mp3', 
+                label: 'КИНО - Пачка сигарет',
+                cover: 'https://avatars.yandex.net/get-music-content/95061/4f3808a0.a.5307396-3/m1000x1000'
+            },
+            { 
+                file: 'music/track48.mp3', 
+                label: 'Наутилус Помпилус - Скованные одной цепью',
+                cover: 'https://cdn-image.zvuk.com/pic?hash=31235327-9fb5-4c39-bab0-81a0bf7daa7c&id=3702762&size=large&type=release'
+            },
+            { 
+                file: 'music/track49.mp3', 
+                label: 'Наутилус Помпилус - Матерь богов',
+                cover: 'https://cdn-image.zvuk.com/pic?hash=31235327-9fb5-4c39-bab0-81a0bf7daa7c&id=3702762&size=large&type=release'
+            },
+            { 
+                file: 'music/track50.mp3', 
+                label: 'АРИЭЛЬ - В краю магнолий',
+                cover: 'https://cdn-images.dzcdn.net/images/cover/e941a7b847becd1b93925dcc17811e78/1000x1000.jpg'
+            },
+            { 
+                file: 'music/track51.mp3', 
+                label: 'АукцЫон - Дорога',
+                cover: 'https://cdn-image.zvuk.com/pic?hash=a1d7f22f-d974-46a0-9a1b-2509f58fcdb9&id=2269703&size=large&type=release'
+            },
+            { 
+                file: 'music/track52.mp3', 
+                label: 'БИ-2 - Феллини',
+                cover: 'https://avatars.yandex.net/get-music-content/14707562/66f75fc5.p.41114/m1000x1000?webp=false'
+            },
+            { 
+                file: 'music/track53.mp3', 
+                label: 'КИНО - Спокойная ночь',
+                cover: 'https://avatars.yandex.net/get-music-content/95061/4f3808a0.a.5307396-3/m1000x1000'
+            },
+            { 
+                file: 'music/track54.mp3', 
+                label: 'СПЛИН - Sos!',
+                cover: 'https://avatars.yandex.net/get-music-content/114728/ce29e78f.a.4181557-1/m1000x1000'
+            },
         ];
 
         let currentTrackIndex = 0;
         const audio = new Audio();
         const trackDisplay = document.getElementById('trackDisplay');
+        const trackTime = document.getElementById('trackTime');
+        const trackProgress = document.getElementById('trackProgress');
+        const musicBlock = document.getElementById('musicBlock');
+        const equalizer = document.getElementById('equalizer');
+        const coverImage = document.getElementById('coverImage');
+        const coverFallback = document.getElementById('coverFallback');
 
         audio.volume = 0.05;
+
+        function updateCover(coverUrl) {
+            if (coverUrl) {
+                coverFallback.style.display = 'none';
+                coverImage.style.display = 'block';
+                coverImage.src = coverUrl;
+            } else {
+                coverImage.style.display = 'none';
+                coverFallback.style.display = 'flex';
+            }
+        }
+
+        coverImage.onerror = function() {
+            coverImage.style.display = 'none';
+            coverFallback.style.display = 'flex';
+        };
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '00:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function updateTimeDisplay() {
+            if (audio.duration && !isNaN(audio.duration)) {
+                trackTime.textContent = formatTime(audio.currentTime);
+                const progressPercent = (audio.currentTime / audio.duration) * 100;
+                trackProgress.style.width = progressPercent + '%';
+            }
+        }
+
+        let timeInterval;
+        function startTimeUpdates() {
+            clearInterval(timeInterval);
+            timeInterval = setInterval(updateTimeDisplay, 100);
+        }
+
+        function stopTimeUpdates() {
+            clearInterval(timeInterval);
+        }
 
         function updateTrackLabel(label, isLoading) {
             if (isLoading) {
                 trackDisplay.textContent = 'ЗАГРУЗКА...';
-                trackDisplay.className = 'track-now loading';
+                trackDisplay.className = 'track-name-full loading';
+                trackTime.textContent = '00:00';
+                trackProgress.style.width = '0%';
+                musicBlock.classList.remove('playing');
+                equalizer.style.opacity = '0';
             } else {
                 trackDisplay.textContent = label;
-                trackDisplay.className = 'track-now playing';
+                trackDisplay.className = 'track-name-full playing';
+                musicBlock.classList.add('playing');
+                equalizer.style.opacity = '1';
+                startTimeUpdates();
             }
         }
 
@@ -634,10 +1030,14 @@
             if (!track) return;
             if (!track.file) {
                 updateTrackLabel('⏸ НЕТ ТРЕКА', false);
+                updateCover(null);
                 return;
             }
 
+            stopTimeUpdates();
             updateTrackLabel('', true);
+            updateCover(track.cover || null);
+            
             audio.pause();
             audio.src = track.file;
             audio.load();
@@ -654,13 +1054,17 @@
             };
             
             audio.onerror = function() {
+                stopTimeUpdates();
                 updateTrackLabel('⚠ ' + track.label + ' (ошибка)', false);
+                musicBlock.classList.remove('playing');
+                equalizer.style.opacity = '0';
                 setTimeout(() => {
                     if (audio.paused || audio.ended) nextTrack();
                 }, 3000);
             };
             
             audio.onended = function() {
+                stopTimeUpdates();
                 nextTrack();
             };
             
@@ -672,6 +1076,7 @@
         }
 
         function nextTrack() {
+            stopTimeUpdates();
             currentTrackIndex = (currentTrackIndex + 1) % TRACK_LIST.length;
             playTrack(currentTrackIndex);
         }
@@ -681,10 +1086,11 @@
             playTrack(currentTrackIndex);
         }
 
-        document.getElementById('musicBlock').addEventListener('click', function(e) {
+        musicBlock.addEventListener('click', function(e) {
             e.stopPropagation();
             if (audio.paused) {
                 audio.play().catch(() => nextTrack());
+                if (!audio.paused) startTimeUpdates();
             } else {
                 nextTrack();
             }
@@ -694,17 +1100,22 @@
             setTimeout(playRandomTrack, 400);
         } else {
             updateTrackLabel('НЕТ ТРЕКОВ', false);
+            updateCover(null);
         }
 
         document.addEventListener('click', function resumeOnInteraction() {
             if (audio.paused && audio.src) {
                 audio.play().catch(() => {});
+                if (!audio.paused) startTimeUpdates();
             }
             document.removeEventListener('click', resumeOnInteraction);
         }, { once: true });
 
         setInterval(() => {
-            if (audio.ended && audio.src) nextTrack();
+            if (audio.ended && audio.src) {
+                stopTimeUpdates();
+                nextTrack();
+            }
         }, 2000);
 
         const progressFill = document.getElementById('progress-fill');
