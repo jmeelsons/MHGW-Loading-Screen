@@ -305,6 +305,22 @@
             100% { opacity: 1; transform: translateX(0); }
         }
 
+        /* Отладка - показываем статус загрузки изображений */
+        #debug-status {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #805050;
+            font-size: 11px;
+            background: rgba(0,0,0,0.7);
+            padding: 4px 12px;
+            border-radius: 12px;
+            z-index: 100;
+            pointer-events: none;
+            font-family: monospace;
+        }
+
         @media (max-width: 600px) {
             .card { padding: 28px 20px; }
             .header { flex-direction: column; align-items: start; gap: 8px; }
@@ -373,8 +389,15 @@
         </div>
     </div>
 
+    <div id="debug-status">🔄 загрузка...</div>
+
     <script>
         (function() {
+            // =============================================
+            // ДЛЯ ОТЛАДКИ - используем тестовые URL, если локальные не грузятся
+            // =============================================
+            const useTestImages = false; // переключи на true, чтобы проверить работу с тестовыми картинками
+            
             const images = [
                 { url: 'images/1.jpg', name: 'Взыры на старом SNB' },
                 { url: 'images/2.jpg', name: 'Что делают с новичками на сервере SNB' },
@@ -384,6 +407,20 @@
                 { url: 'images/6.jpg', name: 'Gang-Bang' },
                 { url: 'images/7.jpg', name: 'На хате у Гриши' }
             ];
+
+            // Тестовые изображения (рабочие URL из интернета)
+            const testImages = [
+                { url: 'https://cdnn21.img.ria.ru/images/07e8/0b/1c/1986171481_0:0:1536:1024_1440x0_80_0_0_c5d81ba7db32fc44ccf677d5abafcf7c.jpg', name: 'Тест 1' },
+                { url: 'https://anna-news.info/wp-content/uploads/2024/12/11/2100/zasada.jpg', name: 'Тест 2' },
+                { url: 'https://cdn-storage-media.tass.ru/resize/1312x868/tass_media/2022/03/07/v/1646644831987940_v8Vctfdx.jpg', name: 'Тест 3' },
+                { url: 'https://im2.kommersant.ru/Issues.photo/CORP/2014/04/16/KMO_096855_04930_1_t218_150838.jpg', name: 'Тест 4' },
+                { url: 'https://cdn5.vedomosti.ru/image/2024/9y/rk8t4/original-zq0.jpg', name: 'Тест 5' },
+                { url: 'https://podrobno.uz/upload/iblock/ca7/rlharwfz7kvvjh9r7zoxqj0z8d31m842/photo_2026_02_14_18_12_37.jpg', name: 'Тест 6' },
+                { url: 'https://sh32-stavropol-r07.gosweb.gosuslugi.ru/netcat_files/178/2851/scale_1200_4.jpg', name: 'Тест 7' }
+            ];
+
+            // Выбираем, какие изображения использовать
+            const activeImages = useTestImages ? testImages : images;
 
             const trackList = [
                 { file: 'music/track1.mp3', label: 'Aphex Twin - Xtal', cover: 'https://imagine-club.com/sites/default/files/styles/product_zoom/public/photos/selected_ambient_works_85-92_aphex_twin_2_lp_apollo_eu_0.jpg?itok=TDDbXnpU' },
@@ -398,7 +435,14 @@
             ];
 
             const randomTrackIndex = Math.floor(Math.random() * trackList.length);
-            const randomImageIndex = Math.floor(Math.random() * images.length);
+            const randomImageIndex = Math.floor(Math.random() * activeImages.length);
+
+            const debugEl = document.getElementById('debug-status');
+
+            function debug(msg) {
+                console.log('[SNB]', msg);
+                if (debugEl) debugEl.textContent = msg;
+            }
 
             const bgContainer = document.getElementById('bgContainer');
             const illustrName = document.getElementById('illustrationName');
@@ -420,71 +464,114 @@
             let slideTimer;
             let bgSlides = [];
 
-            images.forEach((img, i) => {
+            debug('Создание фоновых слайдов...');
+
+            // Создаём элементы фона
+            activeImages.forEach((img, i) => {
                 const slide = document.createElement('div');
                 slide.className = 'bg-slide' + (i === randomImageIndex ? ' active' : '');
                 slide.style.backgroundImage = `url('${img.url}')`;
                 bgContainer.appendChild(slide);
                 bgSlides.push(slide);
+                debug(`Слайд ${i}: ${img.url}`);
             });
 
-            images.forEach((_, i) => {
+            // Создаём точки
+            activeImages.forEach((_, i) => {
                 const dot = document.createElement('span');
                 dot.className = 'dot' + (i === randomImageIndex ? ' active' : '');
                 dot.dataset.index = i;
                 dot.addEventListener('click', (e) => {
                     e.stopPropagation();
+                    debug(`Клик по точке ${i}`);
                     switchTo(i);
                 });
                 dotsContainer.appendChild(dot);
             });
 
             function switchTo(index) {
-                if (index === currentIndex) return;
+                debug(`Переключение на ${index} (текущий ${currentIndex})`);
                 
-                const img = images[index];
+                if (index === currentIndex) {
+                    debug(`Индекс ${index} уже активен, пропускаем`);
+                    return;
+                }
+                
+                const img = activeImages[index];
+                if (!img) {
+                    debug(`ОШИБКА: изображение ${index} не найдено!`);
+                    return;
+                }
+                
                 currentIndex = index;
                 
+                // 1. Обновляем текст
                 illustrName.textContent = img.name;
                 illustrName.classList.remove('changing');
                 void illustrName.offsetWidth;
                 illustrName.classList.add('changing');
 
+                // 2. Обновляем счётчик
                 const display = String(index + 1).padStart(2, '0');
-                const total = String(images.length).padStart(2, '0');
+                const total = String(activeImages.length).padStart(2, '0');
                 counterSpan.textContent = `${display}/${total}`;
 
+                // 3. Обновляем точки
                 document.querySelectorAll('.dot').forEach((dot, i) => {
                     dot.classList.toggle('active', i === index);
                 });
 
+                // 4. Плавно меняем фон
                 bgSlides.forEach(slide => slide.classList.remove('active'));
                 bgSlides[index].classList.add('active');
+                
+                debug(`Фон изменён на ${index}: ${img.url}`);
 
+                // 5. Сбрасываем таймер авто-смены
                 resetSlideTimer();
             }
 
             function nextSlide() {
-                const next = (currentIndex + 1) % images.length;
+                const next = (currentIndex + 1) % activeImages.length;
+                debug(`Авто-смена: ${currentIndex} -> ${next}`);
                 switchTo(next);
             }
 
             function resetSlideTimer() {
                 clearInterval(slideTimer);
                 slideTimer = setInterval(nextSlide, 8000);
+                debug(`Таймер сброшен, следующая смена через 8с`);
             }
 
-            const firstImage = images[randomImageIndex];
+            // =============================================
+            // ИНИЦИАЛИЗАЦИЯ
+            // =============================================
+            debug(`Запуск с изображением ${randomImageIndex}: ${activeImages[randomImageIndex].url}`);
+            
+            const firstImage = activeImages[randomImageIndex];
             illustrName.textContent = firstImage.name;
             const display = String(randomImageIndex + 1).padStart(2, '0');
-            const total = String(images.length).padStart(2, '0');
+            const total = String(activeImages.length).padStart(2, '0');
             counterSpan.textContent = `${display}/${total}`;
             
             document.querySelectorAll('.dot').forEach((dot, i) => {
                 dot.classList.toggle('active', i === randomImageIndex);
             });
 
+            // Проверяем, что фон установлен
+            bgSlides.forEach((slide, i) => {
+                if (i === randomImageIndex) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+
             resetSlideTimer();
+
+            // =============================================
+            // МУЗЫКАЛЬНЫЙ ПЛЕЕР
+            // =============================================
             const audio = new Audio();
             audio.volume = 0.05;
 
@@ -582,6 +669,9 @@
                 }
             }, 600);
 
+            // =============================================
+            // ПРОГРЕСС ЗАГРУЗКИ
+            // =============================================
             let totalFiles = 50;
             let totalCalled = false;
             let percentage = 0;
@@ -703,6 +793,8 @@
                     updateProgressDisplay();
                 }
             }, 500);
+
+            debug('✅ Инициализация завершена');
 
         })();
     </script>
