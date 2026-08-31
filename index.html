@@ -28,8 +28,20 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 20% 30%, #2a1818, #0a0505 80%);
             z-index: -2;
+            transition: background-image 1.5s ease-in-out;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(42,24,24,0.85), rgba(10,5,5,0.95) 80%);
+            z-index: -1;
         }
         .bg::after {
             content: '';
@@ -301,7 +313,8 @@
     </style>
 </head>
 <body>
-    <div class="bg"></div>
+    <div class="bg" id="bgImage"></div>
+    <div class="bg-overlay"></div>
 
     <div class="card">
         <div class="header">
@@ -359,16 +372,17 @@
 
     <script>
         (function() {
-
             const images = [
-                { url: 'images/1.jpg', name: 'Взыры на старом SNB | Male_09' },
-                { url: 'images/2.jpg', name: 'Что делают с новичками на сервере SNB | Male_09' },
-                { url: 'images/3.jpg', name: 'Toyota Mark II | Jmeelson' },
-                { url: 'images/4.jpg', name: 'Бургер кинг говно | Гриша' },
-                { url: 'images/5.jpg', name: 'Великий первый вход админа Smertnik на SNB | Гриша' },
-                { url: 'images/6.jpg', name: 'Gang-Bang | Гриша' },
-                { url: 'images/7.jpg', name: 'На хате у Гриши | Гриша' }
+                { url: 'images/1.jpg', name: 'Взыры на старом SNB' },
+                { url: 'images/2.jpg', name: 'Что делают с новичками на сервере SNB' },
+                { url: 'images/3.jpg', name: 'Toyota Mark II' },
+                { url: 'images/4.jpg', name: 'Бургер кинг говно' },
+                { url: 'images/5.jpg', name: 'Великий первый вход админа Smertnik на SNB' },
+                { url: 'images/6.jpg', name: 'Gang-Bang' },
+                { url: 'images/7.jpg', name: 'На хате у Гриши' }
             ];
+
+            const bgElement = document.getElementById('bgImage');
 
             const illustrName = document.getElementById('illustrationName');
             const counterSpan = document.getElementById('imageCounter');
@@ -512,6 +526,7 @@
                 if (index === currentIndex) return;
                 currentIndex = index;
                 const img = images[index];
+                
                 illustrName.textContent = img.name;
                 illustrName.classList.remove('changing');
                 void illustrName.offsetWidth;
@@ -524,6 +539,9 @@
                 document.querySelectorAll('.dot').forEach((dot, i) => {
                     dot.classList.toggle('active', i === index);
                 });
+
+                bgElement.style.backgroundImage = `url('${img.url}')`;
+
                 resetSlideTimer();
             }
 
