@@ -385,6 +385,113 @@
             const coverImg = document.getElementById('coverImg');
             const coverFallback = document.getElementById('coverFallback');
 
+            const trackList = [
+                { file: 'music/track1.mp3', label: 'Aphex Twin - Xtal', cover: 'https://imagine-club.com/sites/default/files/styles/product_zoom/public/photos/selected_ambient_works_85-92_aphex_twin_2_lp_apollo_eu_0.jpg?itok=TDDbXnpU' },
+                { file: 'music/track2.mp3', label: 'Aphex Twin - Pulsewidth', cover: 'https://imagine-club.com/sites/default/files/styles/product_zoom/public/photos/selected_ambient_works_85-92_aphex_twin_2_lp_apollo_eu_0.jpg?itok=TDDbXnpU' },
+                { file: 'music/track3.mp3', label: 'Aphex Twin - IZ-US', cover: 'https://avatars.mds.yandex.net/i?id=665a0d6158de82f828094cdcd9482408_l-8710632-images-thumbs&n=13' },
+                { file: 'music/track4.mp3', label: 'Aphex Twin — Heliospahn', cover: 'https://imagine-club.com/sites/default/files/styles/product_zoom/public/photos/selected_ambient_works_85-92_aphex_twin_2_lp_apollo_eu_0.jpg?itok=TDDbXnpU' },
+                { file: 'music/track5.mp3', label: 'Aphex Twin — Flim', cover: 'https://avatars.mds.yandex.net/i?id=665a0d6158de82f828094cdcd9482408_l-8710632-images-thumbs&n=13' },
+                { file: 'music/track6.mp3', label: 'Aphex Twin — Delphium', cover: 'https://imagine-club.com/sites/default/files/styles/product_zoom/public/photos/selected_ambient_works_85-92_aphex_twin_2_lp_apollo_eu_0.jpg?itok=TDDbXnpU' },
+                { file: 'music/track7.mp3', label: 'Aphex Twin - Alberto Balsalm', cover: 'https://i.ytimg.com/vi/hiVieBPzY7c/oar2.jpg?usqp=CCk' },
+                { file: 'music/track8.mp3', label: 'Aphex Twin - Actium', cover: 'https://imagine-club.com/sites/default/files/styles/product_zoom/public/photos/selected_ambient_works_85-92_aphex_twin_2_lp_apollo_eu_0.jpg?itok=TDDbXnpU' },
+                { file: 'music/track9.mp3', label: 'Aphex Twin - 180db_', cover: 'https://avatars.mds.yandex.net/i?id=359e2c70e9e0c8a204cd48982cdecbf8_l-5350134-images-thumbs&n=13' }
+            ];
+
+            const audio = new Audio();
+            let currentTrackIndex = 0;
+            let isPlaying = false;
+            let progressInterval = null;
+
+            function formatTime(sec) {
+                if (isNaN(sec) || !isFinite(sec)) return '00:00';
+                const m = Math.floor(sec / 60);
+                const s = Math.floor(sec % 60);
+                return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+            }
+
+            function updateCover(url) {
+                if (url) {
+                    coverImg.style.display = 'block';
+                    coverFallback.style.display = 'none';
+                    coverImg.src = url;
+                    coverImg.onerror = () => {
+                        coverImg.style.display = 'none';
+                        coverFallback.style.display = 'flex';
+                    };
+                } else {
+                    coverImg.style.display = 'none';
+                    coverFallback.style.display = 'flex';
+                }
+            }
+
+            function updateTrackDisplay(track) {
+                trackDisplay.textContent = track.label;
+                trackDisplay.className = 'track-name playing';
+                updateCover(track.cover);
+            }
+
+            function startProgressUpdates() {
+                clearInterval(progressInterval);
+                progressInterval = setInterval(() => {
+                    if (audio.duration && !isNaN(audio.duration)) {
+                        const pct = (audio.currentTime / audio.duration) * 100;
+                        trackProgress.style.width = Math.min(pct, 100) + '%';
+                        trackTime.textContent = formatTime(audio.currentTime);
+                    }
+                }, 200);
+            }
+
+            function playTrack(index) {
+                const track = trackList[index];
+                if (!track) return;
+
+                audio.pause();
+                clearInterval(progressInterval);
+
+                updateTrackDisplay(track);
+                trackTime.textContent = '00:00';
+                trackProgress.style.width = '0%';
+
+                audio.src = track.file;
+                audio.load();
+
+                audio.play().then(() => {
+                    isPlaying = true;
+                    startProgressUpdates();
+                }).catch((err) => {
+                    console.warn('Не удалось воспроизвести:', track.file, err);
+                    trackDisplay.textContent = '⚠ ' + track.label;
+                    trackDisplay.className = 'track-name';
+                });
+
+                audio.onended = () => {
+                    clearInterval(progressInterval);
+                    nextTrack();
+                };
+
+                audio.onerror = () => {
+                    clearInterval(progressInterval);
+                    console.warn('Ошибка загрузки:', track.file);
+                    setTimeout(() => nextTrack(), 2000);
+                };
+            }
+
+            function nextTrack() {
+                currentTrackIndex = (currentTrackIndex + 1) % trackList.length;
+                playTrack(currentTrackIndex);
+            }
+
+            musicBlock.addEventListener('click', (e) => {
+                e.stopPropagation();
+                nextTrack();
+            });
+
+            setTimeout(() => {
+                if (trackList.length > 0) {
+                    playTrack(0);
+                }
+            }, 600);
+
             let currentIndex = 0;
             let slideTimer;
 
@@ -502,77 +609,6 @@
                 tipIdx = (tipIdx + 1) % tips.length;
                 tipText.textContent = tips[tipIdx];
             }, 3200);
-
-            const trackList = [
-                { label: 'Aphex Twin - Xtal', cover: 'https://imagine-club.com/sites/default/files/styles/product_zoom/public/photos/selected_ambient_works_85-92_aphex_twin_2_lp_apollo_eu_0.jpg?itok=TDDbXnpU' },
-                { label: 'Aphex Twin - Pulsewidth', cover: 'https://imagine-club.com/sites/default/files/styles/product_zoom/public/photos/selected_ambient_works_85-92_aphex_twin_2_lp_apollo_eu_0.jpg?itok=TDDbXnpU' },
-                { label: 'Aphex Twin - IZ-US', cover: 'https://avatars.mds.yandex.net/i?id=665a0d6158de82f828094cdcd9482408_l-8710632-images-thumbs&n=13' },
-                { label: 'Aphex Twin — Heliospahn', cover: 'https://imagine-club.com/sites/default/files/styles/product_zoom/public/photos/selected_ambient_works_85-92_aphex_twin_2_lp_apollo_eu_0.jpg?itok=TDDbXnpU' },
-                { label: 'Aphex Twin — Flim', cover: 'https://avatars.mds.yandex.net/i?id=665a0d6158de82f828094cdcd9482408_l-8710632-images-thumbs&n=13' },
-                { label: 'Aphex Twin — Delphium', cover: 'https://imagine-club.com/sites/default/files/styles/product_zoom/public/photos/selected_ambient_works_85-92_aphex_twin_2_lp_apollo_eu_0.jpg?itok=TDDbXnpU' },
-                { label: 'Aphex Twin - Alberto Balsalm', cover: 'https://i.ytimg.com/vi/hiVieBPzY7c/oar2.jpg?usqp=CCk' },
-                { label: 'Aphex Twin - Actium', cover: 'https://imagine-club.com/sites/default/files/styles/product_zoom/public/photos/selected_ambient_works_85-92_aphex_twin_2_lp_apollo_eu_0.jpg?itok=TDDbXnpU' },
-                { label: 'Aphex Twin - 180db_', cover: 'https://avatars.mds.yandex.net/i?id=359e2c70e9e0c8a204cd48982cdecbf8_l-5350134-images-thumbs&n=13' }               
-            ];
-            let trackIdx = 0;
-            let playInterval;
-            let seconds = 0;
-
-            function updateCover(url) {
-                if (url) {
-                    coverImg.style.display = 'block';
-                    coverFallback.style.display = 'none';
-                    coverImg.src = url;
-                    coverImg.onerror = () => {
-                        coverImg.style.display = 'none';
-                        coverFallback.style.display = 'flex';
-                    };
-                } else {
-                    coverImg.style.display = 'none';
-                    coverFallback.style.display = 'flex';
-                }
-            }
-
-            function formatTime(sec) {
-                const m = Math.floor(sec / 60);
-                const s = Math.floor(sec % 60);
-                return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-            }
-
-            function playTrack(index) {
-                const track = trackList[index % trackList.length];
-                trackDisplay.textContent = track.label;
-                trackDisplay.className = 'track-name playing';
-                updateCover(track.cover);
-                seconds = 0;
-                trackTime.textContent = '00:00';
-                trackProgress.style.width = '0%';
-
-                clearInterval(playInterval);
-                playInterval = setInterval(() => {
-                    seconds += 0.5;
-                    if (seconds > 120) {
-                        clearInterval(playInterval);
-                        nextTrack();
-                        return;
-                    }
-                    trackTime.textContent = formatTime(seconds);
-                    const pct = (seconds / 120) * 100;
-                    trackProgress.style.width = Math.min(pct, 100) + '%';
-                }, 500);
-            }
-
-            function nextTrack() {
-                trackIdx = (trackIdx + 1) % trackList.length;
-                playTrack(trackIdx);
-            }
-
-            musicBlock.addEventListener('click', (e) => {
-                e.stopPropagation();
-                nextTrack();
-            });
-
-            setTimeout(() => playTrack(0), 600);
 
             window.GameDetails = function(servername, serverurl, mapname, maxplayers, steamid, gamemode) {
                 if (Config && Config.title) {
