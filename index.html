@@ -316,8 +316,7 @@
     </style>
 </head>
 <body>
-    <div class="bg-container" id="bgContainer">
-    </div>
+    <div class="bg-container" id="bgContainer"></div>
     <div class="bg-overlay"></div>
 
     <div class="card">
@@ -417,7 +416,7 @@
             const coverImg = document.getElementById('coverImg');
             const coverFallback = document.getElementById('coverFallback');
 
-            let currentImageIndex = randomImageIndex;
+            let currentIndex = randomImageIndex;
             let slideTimer;
             let bgSlides = [];
 
@@ -428,14 +427,6 @@
                 bgContainer.appendChild(slide);
                 bgSlides.push(slide);
             });
-
-            function switchBackground(index) {
-                if (index === currentImageIndex) return;
-                
-                bgSlides.forEach(slide => slide.classList.remove('active'));
-                bgSlides[index].classList.add('active');
-                currentImageIndex = index;
-            }
 
             images.forEach((_, i) => {
                 const dot = document.createElement('span');
@@ -449,9 +440,10 @@
             });
 
             function switchTo(index) {
-                if (index === currentImageIndex) return;
-                currentImageIndex = index;
+                if (index === currentIndex) return;
+                
                 const img = images[index];
+                currentIndex = index;
                 
                 illustrName.textContent = img.name;
                 illustrName.classList.remove('changing');
@@ -466,12 +458,14 @@
                     dot.classList.toggle('active', i === index);
                 });
 
-                switchBackground(index);
+                bgSlides.forEach(slide => slide.classList.remove('active'));
+                bgSlides[index].classList.add('active');
+
                 resetSlideTimer();
             }
 
             function nextSlide() {
-                const next = (currentImageIndex + 1) % images.length;
+                const next = (currentIndex + 1) % images.length;
                 switchTo(next);
             }
 
@@ -491,7 +485,6 @@
             });
 
             resetSlideTimer();
-
             const audio = new Audio();
             audio.volume = 0.05;
 
