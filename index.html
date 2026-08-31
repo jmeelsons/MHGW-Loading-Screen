@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SNB-RU - Loading Screen</title>
+    <title>SNB-RU - Loading</title>
     <style>
         * {
             margin: 0;
@@ -11,8 +11,8 @@
             box-sizing: border-box;
         }
         body {
-            background: #0f1214;
-            color: #dadde1;
+            background: #0a0808;
+            color: #d4c9c9;
             font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
             height: 100vh;
             overflow: hidden;
@@ -28,7 +28,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 20% 30%, #1e2629, #0b0e0f 80%);
+            background: radial-gradient(circle at 20% 30%, #2a1818, #0a0505 80%);
             z-index: -2;
         }
         .bg::after {
@@ -38,19 +38,19 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: repeating-linear-gradient(0deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 3px);
+            background: repeating-linear-gradient(0deg, rgba(180,40,40,0.015) 0px, rgba(180,40,40,0.015) 1px, transparent 1px, transparent 3px);
             pointer-events: none;
         }
 
         .card {
             max-width: 720px;
             width: 100%;
-            background: rgba(20, 24, 27, 0.85);
+            background: rgba(18, 12, 12, 0.92);
             backdrop-filter: blur(4px);
             padding: 40px 40px 32px;
             border-radius: 32px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.7), inset 0 1px 1px rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.04);
+            box-shadow: 0 20px 50px rgba(80,10,10,0.6), inset 0 1px 1px rgba(200,60,60,0.06);
+            border: 1px solid rgba(160,40,40,0.15);
             display: flex;
             flex-direction: column;
             gap: 28px;
@@ -59,14 +59,14 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
+            border-bottom: 1px solid rgba(160,40,40,0.15);
             padding-bottom: 18px;
         }
         .logo {
             font-weight: 500;
             font-size: 24px;
             letter-spacing: 0.5px;
-            background: linear-gradient(to right, #ced9e0, #a2b3bd);
+            background: linear-gradient(to right, #e0b8b8, #b88080);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -74,10 +74,10 @@
         .badge {
             font-size: 12px;
             padding: 6px 14px;
-            background: rgba(255,255,255,0.04);
+            background: rgba(160,40,40,0.12);
             border-radius: 40px;
-            color: #8d9ea8;
-            border: 1px solid rgba(255,255,255,0.05);
+            color: #b88080;
+            border: 1px solid rgba(160,40,40,0.15);
             letter-spacing: 0.3px;
         }
         .grid {
@@ -94,25 +94,25 @@
             font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: #7a8e99;
+            color: #a06060;
             margin-bottom: 12px;
         }
         .server-info p {
             font-size: 14px;
             line-height: 1.6;
-            color: #b7c7cf;
+            color: #c4a8a8;
             margin-bottom: 6px;
             font-weight: 300;
         }
         .server-info .highlight {
-            color: #e8b87a;
+            color: #d4906a;
             font-weight: 400;
         }
 
         .music-block {
             flex: 1 1 200px;
             min-width: 180px;
-            background: rgba(0,0,0,0.25);
+            background: rgba(80,20,20,0.15);
             border-radius: 18px;
             padding: 16px 18px;
             display: flex;
@@ -120,25 +120,25 @@
             gap: 16px;
             cursor: pointer;
             transition: background 0.2s, box-shadow 0.2s;
-            border: 1px solid rgba(255,255,255,0.03);
+            border: 1px solid rgba(160,40,40,0.08);
         }
         .music-block:hover {
-            background: rgba(255,255,255,0.04);
-            box-shadow: 0 0 0 1px rgba(232, 184, 122, 0.15);
+            background: rgba(120,30,30,0.2);
+            box-shadow: 0 0 0 1px rgba(200,80,80,0.15);
         }
         .cover {
             width: 56px;
             height: 56px;
             border-radius: 14px;
-            background: #1f282d;
+            background: #1a0e0e;
             flex-shrink: 0;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 24px;
-            color: #7a8e99;
-            border: 1px solid rgba(255,255,255,0.04);
+            color: #a06060;
+            border: 1px solid rgba(160,40,40,0.1);
         }
         .cover img {
             width: 100%;
@@ -154,31 +154,31 @@
             font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: #5f747e;
+            color: #805050;
             margin-bottom: 4px;
         }
         .track-name {
             font-weight: 400;
             font-size: 15px;
-            color: #e8edf0;
+            color: #e0c8c8;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             transition: color 0.2s;
         }
         .track-name.playing {
-            color: #e8b87a;
+            color: #d4906a;
         }
         .track-time {
             font-size: 12px;
-            color: #7a8e99;
+            color: #805050;
             font-variant-numeric: tabular-nums;
             margin-top: 4px;
         }
         .mini-progress {
             width: 100%;
             height: 2px;
-            background: rgba(255,255,255,0.06);
+            background: rgba(160,40,40,0.15);
             border-radius: 4px;
             margin-top: 8px;
             overflow: hidden;
@@ -186,7 +186,7 @@
         .mini-progress-fill {
             height: 100%;
             width: 0%;
-            background: #e8b87a;
+            background: #d4906a;
             border-radius: 4px;
             transition: width 0.1s linear;
         }
@@ -195,21 +195,21 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: rgba(0,0,0,0.15);
+            background: rgba(60,20,20,0.15);
             border-radius: 40px;
             padding: 10px 20px 10px 24px;
-            border: 1px solid rgba(255,255,255,0.03);
+            border: 1px solid rgba(160,40,40,0.08);
         }
         .illustration-label {
             font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            color: #5f747e;
+            color: #805050;
         }
         .illustration-name {
             font-weight: 400;
             font-size: 16px;
-            color: #dadfe3;
+            color: #d4c0c0;
             letter-spacing: 0.2px;
         }
         .illustration-counter {
@@ -217,7 +217,7 @@
             align-items: center;
             gap: 12px;
             font-size: 13px;
-            color: #7a8e99;
+            color: #805050;
         }
         .dots {
             display: flex;
@@ -227,12 +227,12 @@
             width: 8px;
             height: 8px;
             border-radius: 20px;
-            background: #2c383f;
+            background: #3a2020;
             transition: background 0.25s, width 0.25s;
             cursor: pointer;
         }
         .dot.active {
-            background: #e8b87a;
+            background: #d4906a;
             width: 20px;
         }
 
@@ -245,22 +245,23 @@
             display: flex;
             justify-content: space-between;
             font-size: 13px;
-            color: #8d9ea8;
+            color: #a06060;
             font-weight: 300;
             letter-spacing: 0.3px;
         }
         .bar {
             width: 100%;
             height: 6px;
-            background: #1f282d;
+            background: #1a0e0e;
             border-radius: 40px;
             overflow: hidden;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.4);
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.6);
+            border: 1px solid rgba(160,40,40,0.08);
         }
         .bar-fill {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, #6d8b9b, #e8b87a);
+            background: linear-gradient(90deg, #6d3b3b, #d4906a);
             border-radius: 40px;
             transition: width 0.15s ease;
         }
@@ -269,13 +270,13 @@
             display: flex;
             justify-content: space-between;
             font-size: 12px;
-            color: #5a6f7a;
+            color: #6a4040;
             letter-spacing: 0.3px;
             padding-top: 6px;
-            border-top: 1px solid rgba(255,255,255,0.03);
+            border-top: 1px solid rgba(160,40,40,0.08);
         }
         .footer span:last-child {
-            color: #7f949f;
+            color: #8a5a5a;
             font-weight: 300;
         }
 
@@ -312,9 +313,7 @@
             <div class="server-info">
                 <h3>о сервер</h3>
                 <p>SNB-RU — довольно старый Sandbox сервер на базе Z-City.</p>
-                <p><span class="highlight">ZSandbox</span> · измененый sandbox с базой Z-City</p>
-                //--<p>ожидайте зар</p> --хуй
-                <p style="font-size:13px; color:#7a8e99;">приятных лагов и зависаний!</p>
+                <p style="font-size:13px; color:#805050;">приятных лагов и зависаний!</p>
             </div>
 
             <div class="music-block" id="musicBlock" title="нажми, чтобы переключить трек">
@@ -605,13 +604,13 @@
                             fileText.textContent = 'все файлы загружены!';
                         }
                     }, 150);
-                    document.querySelector('.badge').textContent = 'in TEST';
+                    document.querySelector('.badge').textContent = 'by Freak-Dev';
                 }
             }, 1000);
 
             if (typeof SetFilesTotal === 'function') {
                 isGmod = true;
-                document.querySelector('.badge').textContent = 'in GMOD';
+                document.querySelector('.badge').textContent = 'by Freak-Dev';
             }
 
             setTimeout(() => {
